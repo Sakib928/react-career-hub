@@ -28,39 +28,57 @@ const AppliedJobs = () => {
       const onsiteJobs = appliedJobs.filter(
         (job) => job.remote_or_onsite === "Onsite"
       );
+      setDisplayJobs(onsiteJobs);
     } else if (filter == "remote") {
       const remoteJobs = appliedJobs.filter(
         (job) => job.remote_or_onsite === "Remote"
       );
+      setDisplayJobs(remoteJobs);
     }
   };
 
   return (
     <div>
       <p>applied jobs : {appliedJobs.length}</p>
-      <details className="dropdown">
-        <summary className="m-1 btn">open or close</summary>
-        <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
-          <li>
-            <button onClick={handleJobsFilter}>All</button>
-          </li>
-          <li>
-            <button>Remote</button>
-          </li>
-          <li>
-            <button>Onsite</button>
-          </li>
-        </ul>
-      </details>
-      <ul>
-        {displayJobs.map((job) => {
-          return (
-            <li key={job.id}>
-              <span>{job.job_title}</span>
+      <div className="flex justify-between">
+        <details className="dropdown">
+          <summary className="m-1 btn">Sort</summary>
+          <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+            <li
+              onClick={() => {
+                handleJobsFilter("all");
+              }}
+            >
+              <a>All</a>
             </li>
-          );
-        })}
-      </ul>
+            <li
+              onClick={() => {
+                handleJobsFilter("onsite");
+              }}
+            >
+              <a>Remote</a>
+            </li>
+            <li
+              onClick={() => {
+                handleJobsFilter("remote");
+              }}
+            >
+              <a>Onsite</a>
+            </li>
+          </ul>
+        </details>
+        <div>
+          <ul>
+            {displayJobs.map((job) => {
+              return (
+                <li key={job.id}>
+                  <span>{job.job_title}</span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 };
