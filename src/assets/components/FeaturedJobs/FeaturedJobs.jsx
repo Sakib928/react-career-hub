@@ -3,11 +3,13 @@ import Job from "../Job/Job";
 
 const FeaturedJobs = () => {
   const [jobs, setJobs] = useState([]);
+  const [cardLimit, setCardLimit] = useState(4);
   useEffect(() => {
     fetch("jobs.json")
       .then((res) => res.json())
       .then((data) => setJobs(data));
   }, []);
+  const customClass = `text-center my-8 ${cardLimit === 6 && "hidden"}`;
   return (
     <div>
       <div className="text-center">
@@ -19,8 +21,18 @@ const FeaturedJobs = () => {
       </div>
       <div className="grid grid-cols-2 gap-16">
         {jobs.map((job, idx) => {
-          return idx < 4 ? <Job key={job.id} job={job}></Job> : "";
+          return idx < cardLimit ? <Job key={job.id} job={job}></Job> : "";
         })}
+      </div>
+      <div className={customClass}>
+        <button
+          onClick={() => {
+            setCardLimit(jobs.length);
+          }}
+          className="btn btn-primary"
+        >
+          Show All Jobs
+        </button>
       </div>
     </div>
   );
